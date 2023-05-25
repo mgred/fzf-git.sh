@@ -140,7 +140,7 @@ _fzf_git_files() {
     --header $'CTRL-O (open in browser) ╱ ALT-E (open in editor)\n\n' \
     --bind "ctrl-o:execute-silent:bash $__fzf_git file {-1}" \
     --bind "enter:execute:${EDITOR:-vim} {-1} > /dev/tty" \
-    --preview "git diff --no-ext-diff --color=always -- {-1} | sed 1,4d; $_fzf_git_cat {-1}" "$@" |
+    --preview "git diff --no-ext-diff --color=always -- {-1} | delta; $_fzf_git_cat {-1}" "$@" |
   cut -c4- | sed 's/.* -> //'
 }
 
@@ -180,7 +180,7 @@ _fzf_git_hashes() {
     --bind "ctrl-o:execute-silent:bash $__fzf_git commit {}" \
     --bind 'enter:execute:grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git diff > /dev/tty' \
     --color hl:underline,hl+:underline \
-    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git show --color=always' "$@" |
+    --preview 'grep -o "[a-f0-9]\{7,\}" <<< {} | head -n 1 | xargs git show --color=always | delta' "$@" |
   awk 'match($0, /[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]*/) { print substr($0, RSTART, RLENGTH) }'
 }
 
